@@ -6,7 +6,7 @@ from aiogram.types import Message
 from aiogram.exceptions import TelegramBadRequest
 
 import logging
-logging.basicConfig(level=logging.INFO)  
+logging.basicConfig(level=logging.INFO)
 
 
 # token
@@ -56,21 +56,7 @@ async def command_all_handler(msg: Message):
     """
     username = f"@{msg.from_user.username}"
     if msg.text.startswith("/all") and username in admins_list:
-        user_list = ' '.join(users_list)
-        user_fullname = msg.from_user.full_name
-        text = f"{user_list} Сообщение от <b>{user_fullname}</b>: "
-        text += msg.text[len("/all"):].strip()
-        await msg.answer(text)
-        try:
-            # проверка прав и удаление исходного сообщения
-            member = await bot.get_chat_member(msg.chat.id, bot.id)
-            for perm, val in member:
-                if perm == "can_delete_messages":
-                    if val:
-                        await msg.chat.delete_message(msg.message_id)
-                    break
-        except TelegramBadRequest:
-            logging.info("Bot needs chat admin permissions")
+        await msg.reply(' '.join(users_list))
 
 
 async def main() -> None:
@@ -79,7 +65,7 @@ async def main() -> None:
 
     # ... and all other routers should be attached to Dispatcher
     dp.include_router(router)
-    
+
     # And the run events dispatching
     await dp.start_polling(bot)
 
