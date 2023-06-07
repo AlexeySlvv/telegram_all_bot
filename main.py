@@ -46,7 +46,7 @@ async def command_start_handler(message: Message) -> None:
     """
     This handler receive messages with `/start` command
     """
-    await message.answer(f"Привет всем в этом чате! )")
+    await message.answer(f"Hi all! )")
 
 
 @router.message(Command(commands=["all"]))
@@ -54,8 +54,8 @@ async def command_all_handler(msg: Message):
     """
     This handler receive messages with `/all` command
     """
-    username = f"@{msg.from_user.username}"
-    if msg.text.startswith("/all") and username in admins_list:
+    user_name = f"@{msg.from_user.username}"
+    if user_name in admins_list:
         await msg.reply(' '.join(users_list))
 
 
